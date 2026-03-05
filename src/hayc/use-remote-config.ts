@@ -1,15 +1,50 @@
-import { siteConfig } from '../config';
+import {
+  siteConfig,
+  navigationConfig,
+  heroConfig,
+  availabilityConfig,
+  bedroomConfig,
+  livingRoomConfig,
+  kitchenConfig,
+  bathroomConfig,
+  amenitiesPageConfig,
+  locationPageConfig,
+  bookingPageConfig,
+  contactPageConfig,
+} from '../config';
 
 export interface RemoteConfig {
   version: number;
   exportedAt: string;
   siteConfig: typeof siteConfig;
+  navigationConfig: typeof navigationConfig;
+  heroConfig: typeof heroConfig;
+  availabilityConfig: typeof availabilityConfig;
+  bedroomConfig: typeof bedroomConfig;
+  livingRoomConfig: typeof livingRoomConfig;
+  kitchenConfig: typeof kitchenConfig;
+  bathroomConfig: typeof bathroomConfig;
+  amenitiesPageConfig: typeof amenitiesPageConfig;
+  locationPageConfig: typeof locationPageConfig;
+  bookingPageConfig: typeof bookingPageConfig;
+  contactPageConfig: typeof contactPageConfig;
 }
 
 export const defaultConfig: RemoteConfig = {
   version: 1,
   exportedAt: '',
   siteConfig,
+  navigationConfig,
+  heroConfig,
+  availabilityConfig,
+  bedroomConfig,
+  livingRoomConfig,
+  kitchenConfig,
+  bathroomConfig,
+  amenitiesPageConfig,
+  locationPageConfig,
+  bookingPageConfig,
+  contactPageConfig,
 };
 
 export async function fetchRemoteConfig(): Promise<RemoteConfig> {
