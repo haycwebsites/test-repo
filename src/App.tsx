@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { HaycProvider, useHayc } from './hayc/config-context';
+import { ContactForm } from '@/components/ContactForm';
 import './App.css';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -609,43 +610,7 @@ function ContactPage() {
 
           <div className="bg-[#1a1a1a] p-8 md:p-10 border border-[#F4F2EE]/10">
             <h2 className="text-2xl font-semibold mb-6">{t(contactPageConfig.formTitle)}</h2>
-            <form className="space-y-6">
-              <div>
-                <Label htmlFor="contact-name" className="text-[#F4F2EE] mb-2 block">{t(contactPageConfig.formLabels.name)}</Label>
-                <Input 
-                  id="contact-name" 
-                  placeholder={t(contactPageConfig.formLabels.namePlaceholder)} 
-                  className="bg-transparent border-[#F4F2EE]/20 text-[#F4F2EE] placeholder:text-[#6D6A63] focus:border-[#2F6BFF]"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="contact-email" className="text-[#F4F2EE] mb-2 block">{t(contactPageConfig.formLabels.email)}</Label>
-                <Input 
-                  id="contact-email" 
-                  type="email"
-                  placeholder={t(contactPageConfig.formLabels.emailPlaceholder)} 
-                  className="bg-transparent border-[#F4F2EE]/20 text-[#F4F2EE] placeholder:text-[#6D6A63] focus:border-[#2F6BFF]"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="contact-message" className="text-[#F4F2EE] mb-2 block">{t(contactPageConfig.formLabels.message)}</Label>
-                <Textarea 
-                  id="contact-message" 
-                  placeholder={t(contactPageConfig.formLabels.messagePlaceholder)}
-                  rows={4}
-                  className="bg-transparent border-[#F4F2EE]/20 text-[#F4F2EE] placeholder:text-[#6D6A63] focus:border-[#2F6BFF]"
-                />
-              </div>
-              
-              <Button 
-                type="submit"
-                className="w-full bg-[#2F6BFF] hover:bg-[#2556CC] text-white py-6 text-base font-medium"
-              >
-                {t(contactPageConfig.submitButton)}
-              </Button>
-            </form>
+            <ContactForm />
           </div>
         </div>
 

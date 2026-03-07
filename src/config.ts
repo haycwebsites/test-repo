@@ -24,6 +24,8 @@ export interface SiteConfig {
   keywords: LocaleString;
   ogImage: string;
   canonical: string;
+  siteId: string;
+  apiUrl: string;
 }
 
 export interface NavLink {
@@ -161,6 +163,8 @@ export const siteConfig: SiteConfig = {
   keywords: { el: 'διαμέρισμα, ενοικίαση', en: 'apartment, rental, long-term' },
   ogImage: '/hero_portrait.jpg',
   canonical: '',
+  siteId: (import.meta.env?.VITE_SITE_ID as string) ?? '',
+  apiUrl: (import.meta.env?.VITE_API_URL as string) ?? '',
 };
 
 export const navigationConfig: NavigationConfig = {
@@ -169,18 +173,33 @@ export const navigationConfig: NavigationConfig = {
   menuButton: { el: 'Menu', en: 'Menu' },
   closeButton: { el: 'Close', en: 'Close' },
   navLinks: [
-    { path: '/', label: { el: 'Home', en: 'Home' } },
-    { path: '/amenities', label: { el: 'Amenities', en: 'Amenities' } },
-    { path: '/location', label: { el: 'Location', en: 'Location' } },
-    { path: '/booking', label: { el: 'Book a Viewing', en: 'Book a Viewing' } },
-    { path: '/contact', label: { el: 'Contact', en: 'Contact' } },
+    {
+      path: '/',
+      label: { el: 'Home', en: 'Home' },
+    },
+    {
+      path: '/amenities',
+      label: { el: 'Amenities', en: 'Amenities' },
+    },
+    {
+      path: '/location',
+      label: { el: 'Location', en: 'Location' },
+    },
+    {
+      path: '/booking',
+      label: { el: 'Book a Viewing', en: 'Book a Viewing' },
+    },
+    {
+      path: '/contact',
+      label: { el: 'Contact', en: 'Contact' },
+    },
   ],
 };
 
 export const heroConfig: HeroConfig = {
   heroImage: '/hero_portrait.jpg',
   heroImageAlt: { el: 'Εσωτερικό διαμερίσματος', en: 'Apartment interior' },
-  mainTitle: { el: 'Live batman\nfor a\nwhile.', en: 'Live here\nfor a\nwhile.' },
+  mainTitle: { el: 'Live batman123\nfor a\nwhile.', en: 'Live here\nfor a\nwhile.' },
   subtitle: { el: 'A calm, furnished rental in the city—available for stays of 3–12 months.', en: 'A calm, furnished rental in the city—available for stays of 3–12 months.' },
   requestTourButton: { el: 'Request a tour', en: 'Request a tour' },
   viewAvailabilityButton: { el: 'View availability', en: 'View availability' },
@@ -235,20 +254,56 @@ export const bathroomConfig: RoomConfig = {
 
 export const amenitiesPageConfig: AmenitiesPageConfig = {
   title: { el: 'Everything you need.', en: 'Everything you need.' },
-  subtitle: { el: "Move in with a suitcase. We've handled the rest.", en: "Move in with a suitcase. We've handled the rest." },
+  subtitle: { el: 'Move in with a suitcase. We\'ve handled the rest.', en: 'Move in with a suitcase. We\'ve handled the rest.' },
   amenities: [
-    { icon: 'Wifi', label: { el: 'High-speed wifi', en: 'High-speed wifi' } },
-    { icon: 'Calendar', label: { el: 'Utilities included (fair use)', en: 'Utilities included (fair use)' } },
-    { icon: 'Bed', label: { el: 'Bed linen + bath towels', en: 'Bed linen + bath towels' } },
-    { icon: 'Check', label: { el: 'Weekly cleaning (optional)', en: 'Weekly cleaning (optional)' } },
-    { icon: 'Check', label: { el: 'Maintenance support', en: 'Maintenance support' } },
-    { icon: 'Check', label: { el: 'Bike storage', en: 'Bike storage' } },
-    { icon: 'Check', label: { el: 'Elevator access', en: 'Elevator access' } },
-    { icon: 'Check', label: { el: 'Secure entry', en: 'Secure entry' } },
-    { icon: 'Sofa', label: { el: 'Furnished throughout', en: 'Furnished throughout' } },
-    { icon: 'UtensilsCrossed', label: { el: 'Fully equipped kitchen', en: 'Fully equipped kitchen' } },
-    { icon: 'Bath', label: { el: 'Premium bathroom fixtures', en: 'Premium bathroom fixtures' } },
-    { icon: 'Home', label: { el: 'Dedicated workspace', en: 'Dedicated workspace' } },
+    {
+      icon: 'Wifi',
+      label: { el: 'High-speed wifi', en: 'High-speed wifi' },
+    },
+    {
+      icon: 'Calendar',
+      label: { el: 'Utilities included (fair use)', en: 'Utilities included (fair use)' },
+    },
+    {
+      icon: 'Bed',
+      label: { el: 'Bed linen + bath towels', en: 'Bed linen + bath towels' },
+    },
+    {
+      icon: 'Check',
+      label: { el: 'Weekly cleaning (optional)', en: 'Weekly cleaning (optional)' },
+    },
+    {
+      icon: 'Check',
+      label: { el: 'Maintenance support', en: 'Maintenance support' },
+    },
+    {
+      icon: 'Check',
+      label: { el: 'Bike storage', en: 'Bike storage' },
+    },
+    {
+      icon: 'Check',
+      label: { el: 'Elevator access', en: 'Elevator access' },
+    },
+    {
+      icon: 'Check',
+      label: { el: 'Secure entry', en: 'Secure entry' },
+    },
+    {
+      icon: 'Sofa',
+      label: { el: 'Furnished throughout', en: 'Furnished throughout' },
+    },
+    {
+      icon: 'UtensilsCrossed',
+      label: { el: 'Fully equipped kitchen', en: 'Fully equipped kitchen' },
+    },
+    {
+      icon: 'Bath',
+      label: { el: 'Premium bathroom fixtures', en: 'Premium bathroom fixtures' },
+    },
+    {
+      icon: 'Home',
+      label: { el: 'Dedicated workspace', en: 'Dedicated workspace' },
+    },
   ],
   downloadButton: { el: 'Download full checklist (PDF)', en: 'Download full checklist (PDF)' },
   askQuestionButton: { el: 'Ask a question', en: 'Ask a question' },
@@ -263,9 +318,18 @@ export const locationPageConfig: LocationPageConfig = {
   description: { el: 'Cafes, parks, and grocery runs within walking distance. Transit links are close—without the noise.', en: 'Cafes, parks, and grocery runs within walking distance. Transit links are close—without the noise.' },
   viewMapButton: { el: 'View on map', en: 'View on map' },
   nearbyPlaces: [
-    { label: { el: 'Café', en: 'Café' }, time: { el: '3 min walk', en: '3 min walk' } },
-    { label: { el: 'Metro', en: 'Metro' }, time: { el: '6 min walk', en: '6 min walk' } },
-    { label: { el: 'Market', en: 'Market' }, time: { el: '4 min walk', en: '4 min walk' } },
+    {
+      label: { el: 'Café', en: 'Café' },
+      time: { el: '3 min walk', en: '3 min walk' },
+    },
+    {
+      label: { el: 'Metro', en: 'Metro' },
+      time: { el: '6 min walk', en: '6 min walk' },
+    },
+    {
+      label: { el: 'Market', en: 'Market' },
+      time: { el: '4 min walk', en: '4 min walk' },
+    },
   ],
 };
 
@@ -273,9 +337,18 @@ export const bookingPageConfig: BookingPageConfig = {
   title: { el: 'Book a viewing.', en: 'Book a viewing.' },
   subtitle: { el: 'Reply within one business day.', en: 'Reply within one business day.' },
   features: [
-    { icon: 'Calendar', label: { el: 'Flexible viewing times', en: 'Flexible viewing times' } },
-    { icon: 'Check', label: { el: 'No obligation', en: 'No obligation' } },
-    { icon: 'MapPin', label: { el: 'In-person or virtual tour', en: 'In-person or virtual tour' } },
+    {
+      icon: 'Calendar',
+      label: { el: 'Flexible viewing times', en: 'Flexible viewing times' },
+    },
+    {
+      icon: 'Check',
+      label: { el: 'No obligation', en: 'No obligation' },
+    },
+    {
+      icon: 'MapPin',
+      label: { el: 'In-person or virtual tour', en: 'In-person or virtual tour' },
+    },
   ],
   formLabels: {
     name: { el: 'Name', en: 'Name' },
@@ -288,22 +361,40 @@ export const bookingPageConfig: BookingPageConfig = {
     messagePlaceholder: { el: 'Any questions or specific requirements?', en: 'Any questions or specific requirements?' },
   },
   moveInMonths: [
-    { value: 'june', label: { el: 'June 2026', en: 'June 2026' } },
-    { value: 'july', label: { el: 'July 2026', en: 'July 2026' } },
-    { value: 'august', label: { el: 'August 2026', en: 'August 2026' } },
-    { value: 'september', label: { el: 'September 2026', en: 'September 2026' } },
-    { value: 'october', label: { el: 'October 2026', en: 'October 2026' } },
-    { value: 'later', label: { el: 'Later', en: 'Later' } },
+    {
+      value: 'june',
+      label: { el: 'June 2026', en: 'June 2026' },
+    },
+    {
+      value: 'july',
+      label: { el: 'July 2026', en: 'July 2026' },
+    },
+    {
+      value: 'august',
+      label: { el: 'August 2026', en: 'August 2026' },
+    },
+    {
+      value: 'september',
+      label: { el: 'September 2026', en: 'September 2026' },
+    },
+    {
+      value: 'october',
+      label: { el: 'October 2026', en: 'October 2026' },
+    },
+    {
+      value: 'later',
+      label: { el: 'Later', en: 'Later' },
+    },
   ],
   submitButton: { el: 'Send inquiry', en: 'Send inquiry' },
   successTitle: { el: 'Request received!', en: 'Request received!' },
-  successMessage: { el: "We'll get back to you within one business day to confirm your viewing.", en: "We'll get back to you within one business day to confirm your viewing." },
+  successMessage: { el: 'We\'ll get back to you within one business day to confirm your viewing.', en: 'We\'ll get back to you within one business day to confirm your viewing.' },
   backHomeButton: { el: 'Back to home', en: 'Back to home' },
 };
 
 export const contactPageConfig: ContactPageConfig = {
   title: { el: 'Get in touch.', en: 'Get in touch.' },
-  subtitle: { el: "Have questions? We're here to help.", en: "Have questions? We're here to help." },
+  subtitle: { el: 'Have questions? We\'re here to help.', en: 'Have questions? We\'re here to help.' },
   emailLabel: { el: 'Email', en: 'Email' },
   email: 'hello@apartment128.com',
   phoneLabel: { el: 'Phone', en: 'Phone' },

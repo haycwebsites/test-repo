@@ -31,7 +31,12 @@ const configTsPath = path.resolve(__dirname, '../src/config.ts');
 const SKIP_KEYS = new Set(['version', 'exportedAt']);
 
 function escapeString(str: string): string {
-  return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  return str
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\r/g, '\\r')
+    .replace(/\n/g, '\\n')
+    .replace(/\t/g, '\\t');
 }
 
 function serializeValue(val: unknown, indent: number): string {
