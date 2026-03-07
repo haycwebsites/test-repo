@@ -163,8 +163,8 @@ export const siteConfig: SiteConfig = {
   keywords: { el: 'διαμέρισμα, ενοικίαση', en: 'apartment, rental, long-term' },
   ogImage: '/hero_portrait.jpg',
   canonical: '',
-  siteId: ((import.meta as { env?: Record<string, unknown> }).env?.VITE_SITE_ID as string) ?? '',
-  apiUrl: ((import.meta as { env?: Record<string, unknown> }).env?.VITE_API_URL as string) ?? '',
+  siteId: '',
+  apiUrl: '',
 };
 
 export const navigationConfig: NavigationConfig = {
@@ -199,8 +199,8 @@ export const navigationConfig: NavigationConfig = {
 export const heroConfig: HeroConfig = {
   heroImage: '/hero_portrait.jpg',
   heroImageAlt: { el: 'Εσωτερικό διαμερίσματος', en: 'Apartment interior' },
-  mainTitle: { el: 'Live batman123\nfor a\nwhile.', en: 'Live here\nfor a\nwhile.' },
-  subtitle: { el: 'A calm, furnished rental in the city—available for stays of 3–12 months.', en: 'A calm, furnished rental in the city—available for stays of 3–12 months.' },
+  mainTitle: { el: 'test here', en: 'Live here\nfor a\nwhile.' },
+  subtitle: { el: 'A calm, batman rental in the city—available for stays of 3–12 months.', en: 'A calm, furnished rental in the city—available for stays of 3–12 months.' },
   requestTourButton: { el: 'Request a tour', en: 'Request a tour' },
   viewAvailabilityButton: { el: 'View availability', en: 'View availability' },
   availabilityLabel: { el: 'Now showing · Q3 2026', en: 'Now showing · Q3 2026' },
