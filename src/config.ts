@@ -163,8 +163,8 @@ export const siteConfig: SiteConfig = {
   keywords: { el: 'διαμέρισμα, ενοικίαση', en: 'apartment, rental, long-term' },
   ogImage: '/hero_portrait.jpg',
   canonical: '',
-  siteId: (import.meta.env?.VITE_SITE_ID as string) ?? '',
-  apiUrl: (import.meta.env?.VITE_API_URL as string) ?? '',
+  siteId: ((import.meta as { env?: Record<string, unknown> }).env?.VITE_SITE_ID as string) ?? '',
+  apiUrl: ((import.meta as { env?: Record<string, unknown> }).env?.VITE_API_URL as string) ?? '',
 };
 
 export const navigationConfig: NavigationConfig = {
