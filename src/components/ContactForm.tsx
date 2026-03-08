@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { Check } from 'lucide-react';
 import { useHayc } from '../hayc/config-context';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -101,20 +100,15 @@ export function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="text-center">
-        <div className="w-16 h-16 bg-[#2F6BFF] rounded-full flex items-center justify-center mx-auto mb-6">
-          <Check className="w-8 h-8 text-white" />
-        </div>
-        <h3 className="text-2xl md:text-3xl font-semibold tracking-tight text-[#F4F2EE] mb-4">
-          {t(labels.successTitle)}
-        </h3>
-        <p className="text-[#6D6A63] text-lg max-w-md mx-auto">{t(labels.successText)}</p>
+      <div className="space-y-2 text-center">
+        <h3 className="text-lg font-semibold">{t(labels.successTitle)}</h3>
+        <p className="text-muted-foreground text-sm">{t(labels.successText)}</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <input
         type="text"
         name="_hp"
@@ -126,10 +120,8 @@ export function ContactForm() {
         aria-hidden
       />
 
-      <div>
-        <Label htmlFor="contact-name" className="text-[#F4F2EE] mb-2 block">
-          {t(labels.nameLabel)}
-        </Label>
+      <div className="grid gap-2">
+        <Label htmlFor="contact-name">{t(labels.nameLabel)}</Label>
         <Input
           id="contact-name"
           type="text"
@@ -141,19 +133,16 @@ export function ContactForm() {
           disabled={loading}
           aria-invalid={!!fieldErrors.name}
           aria-describedby={fieldErrors.name ? 'contact-name-error' : undefined}
-          className="bg-transparent border-[#F4F2EE]/20 text-[#F4F2EE] placeholder:text-[#6D6A63] focus:border-[#2F6BFF] focus-visible:ring-[#2F6BFF]/50"
         />
         {fieldErrors.name && (
-          <p id="contact-name-error" className="text-red-400 text-sm mt-1.5">
+          <p id="contact-name-error" className="text-destructive text-sm">
             {fieldErrors.name}
           </p>
         )}
       </div>
 
-      <div>
-        <Label htmlFor="contact-email" className="text-[#F4F2EE] mb-2 block">
-          {t(labels.emailLabel)}
-        </Label>
+      <div className="grid gap-2">
+        <Label htmlFor="contact-email">{t(labels.emailLabel)}</Label>
         <Input
           id="contact-email"
           type="email"
@@ -165,19 +154,16 @@ export function ContactForm() {
           disabled={loading}
           aria-invalid={!!fieldErrors.email}
           aria-describedby={fieldErrors.email ? 'contact-email-error' : undefined}
-          className="bg-transparent border-[#F4F2EE]/20 text-[#F4F2EE] placeholder:text-[#6D6A63] focus:border-[#2F6BFF] focus-visible:ring-[#2F6BFF]/50"
         />
         {fieldErrors.email && (
-          <p id="contact-email-error" className="text-red-400 text-sm mt-1.5">
+          <p id="contact-email-error" className="text-destructive text-sm">
             {fieldErrors.email}
           </p>
         )}
       </div>
 
-      <div>
-        <Label htmlFor="contact-message" className="text-[#F4F2EE] mb-2 block">
-          {t(labels.messageLabel)}
-        </Label>
+      <div className="grid gap-2">
+        <Label htmlFor="contact-message">{t(labels.messageLabel)}</Label>
         <Textarea
           id="contact-message"
           value={message}
@@ -189,25 +175,20 @@ export function ContactForm() {
           rows={4}
           aria-invalid={!!fieldErrors.message}
           aria-describedby={fieldErrors.message ? 'contact-message-error' : undefined}
-          className="bg-transparent border-[#F4F2EE]/20 text-[#F4F2EE] placeholder:text-[#6D6A63] focus:border-[#2F6BFF] focus-visible:ring-[#2F6BFF]/50"
         />
         {fieldErrors.message && (
-          <p id="contact-message-error" className="text-red-400 text-sm mt-1.5">
+          <p id="contact-message-error" className="text-destructive text-sm">
             {fieldErrors.message}
           </p>
         )}
       </div>
 
-      <Button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-[#2F6BFF] hover:bg-[#2556CC] text-white py-6 text-base font-medium"
-      >
+      <Button type="submit" disabled={loading} className="w-full">
         {loading ? t(labels.submitting) : t(labels.submitButton)}
       </Button>
 
       {error && (
-        <p className="text-red-400 text-sm" role="alert">
+        <p className="text-destructive text-sm" role="alert">
           {error}
         </p>
       )}

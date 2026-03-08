@@ -51,7 +51,7 @@ Every component in `src/sections/`, `src/components/`, and `src/pages/` must:
 ```tsx
 import { useHayc } from '../hayc/config-context';
 
-const { t, img, config } = useHayc();
+const { t, img, config, cp } = useHayc();
 ```
 
 ### 2. All text must use t()
@@ -104,15 +104,71 @@ When a component needs a new text field:
 - formEndpoint, newsletterEndpoint, canonical, ogImage
 - glowColor, filter, language
 
+---
+
+## Click-to-Edit (CMS Edit Mode)
+
+This site supports a **click-to-edit** feature. When the HAYC CMS opens the site in the iframe and the admin enables "Edit Mode", clicking any text element in the site opens the corresponding field in the CMS sidebar.
+
+### How it works
+- `useHayc()` exposes a `cp(path: string)` helper
+- Spread `{...cp('configKey.fieldName')}` on any JSX element whose text comes from config
+- In edit mode, clicking that element sends a `HAYC_FIELD_FOCUS` message to the CMS parent, which opens the correct sidebar section and highlights the field
+- In edit mode, ALL clicks are intercepted — navigation and button actions are blocked so the admin can click freely without triggering routes
+
+### Rule: spread cp() on every element that renders config text
+
+The path must exactly match the config key path used in `t()` or `img()`:
+
+```tsx
+// ❌ Wrong — no cp(), click-to-edit won't work for this element
+<h1>{t(config.heroConfig.mainTitle)}</h1>
+
+// ✅ Correct — cp() path mirrors the config key used in t()
+<h1 {...cp('heroConfig.mainTitle')}>{t(config.heroConfig.mainTitle)}</h1>
+```
+
+### Path convention
+The path is always `configObjectName.fieldName`, matching the exact keys in `config.ts`:
+
+```tsx
+// Navigation
+<span {...cp('navigationConfig.brandName')}>{t(config.navigationConfig.brandName)}</span>
+<a {...cp('navigationConfig.bookViewingLink')}>{t(config.navigationConfig.bookViewingLink)}</a>
+
+// Hero
+<h1 {...cp('heroConfig.mainTitle')}>{t(config.heroConfig.mainTitle)}</h1>
+<p {...cp('heroConfig.subtitle')}>{t(config.heroConfig.subtitle)}</p>
+<button {...cp('heroConfig.requestTourButton')}>{t(config.heroConfig.requestTourButton)}</button>
+
+// Nested / array fields
+<p {...cp('faqConfig.items.0.question')}>{t(config.faqConfig.items[0].question)}</p>
+```
+
+### What cp() returns
+- **Edit mode OFF:** `{}` — no effect on the element whatsoever
+- **Edit mode ON:** `{ 'data-config-path': path, onClick: ..., style: { cursor: 'pointer' } }`
+
+So spreading `{...cp(...)}` is always safe — it has zero effect when not in edit mode.
+
+### When adding a new section or component
+For every new component that renders config text:
+1. Destructure `cp` from `useHayc()` alongside `t`, `img`, `config`
+2. Add `{...cp('sectionConfig.fieldName')}` to every element that renders a config value
+3. The path must be the first-level config key + field name, matching exactly what you pass to `t()`
+
+---
+
 ## When integrating a new Kimi or Relume export
 
 1. **Verify HaycProvider** wraps the app in `App.tsx`
 2. Copy the new sections and components into src/sections/ and src/components/
 3. For each component:
-   - Add `const { t, img, config } = useHayc();`
+   - Add `const { t, img, config, cp } = useHayc();`
    - Move all hardcoded text into config.ts as LocaleString fields **with actual values**
    - Move all hardcoded image paths into config.ts as string fields **with actual URLs**
-   - Replace all hardcoded values in JSX with t() or img() calls
+   - Replace all hardcoded values in JSX with `t()` or `img()` calls
+   - Add `{...cp('configKey.fieldName')}` to every element that renders config text
 4. **Update use-remote-config.ts** — add new config exports to both:
    - The import statement
    - The `RemoteConfig` interface
@@ -161,6 +217,8 @@ const config = {
 5. **Using t() on non-LocaleString fields** — Type errors; use plain values for images, hrefs, icons
 6. **Not updating export-config.ts** — Production `config.json` won't have new fields → runtime errors in production only
 7. **Using `npm run build` instead of `npm run build:full`** — Config won't be exported for manual deploys
+8. **Forgetting cp() on elements** — Click-to-edit won't work for that element in the CMS
+9. **Wrong cp() path** — CMS opens the wrong section; path must exactly match the config key used in t()
 
 ### Before Every Work Session
 
