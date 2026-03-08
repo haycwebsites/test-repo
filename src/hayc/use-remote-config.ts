@@ -1,6 +1,8 @@
 import {
   siteConfig,
   navigationConfig,
+  preloaderConfig,
+  scrollToTopConfig,
   heroConfig,
   availabilityConfig,
   bedroomConfig,
@@ -18,6 +20,8 @@ export interface RemoteConfig {
   exportedAt: string;
   siteConfig: typeof siteConfig;
   navigationConfig: typeof navigationConfig;
+  preloaderConfig: typeof preloaderConfig;
+  scrollToTopConfig: typeof scrollToTopConfig;
   heroConfig: typeof heroConfig;
   availabilityConfig: typeof availabilityConfig;
   bedroomConfig: typeof bedroomConfig;
@@ -35,6 +39,8 @@ export const defaultConfig: RemoteConfig = {
   exportedAt: '',
   siteConfig,
   navigationConfig,
+  preloaderConfig,
+  scrollToTopConfig,
   heroConfig,
   availabilityConfig,
   bedroomConfig,

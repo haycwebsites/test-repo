@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import {
   siteConfig,
   navigationConfig,
+  preloaderConfig,
+  scrollToTopConfig,
   heroConfig,
   availabilityConfig,
   bedroomConfig,
@@ -24,6 +26,8 @@ const config = {
   exportedAt: new Date().toISOString(),
   siteConfig,
   navigationConfig,
+  preloaderConfig,
+  scrollToTopConfig,
   heroConfig,
   availabilityConfig,
   bedroomConfig,

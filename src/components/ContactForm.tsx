@@ -5,41 +5,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
-const labels = {
-  nameLabel: { el: 'Όνομα', en: 'Name' },
-  emailLabel: { el: 'Email', en: 'Email' },
-  messageLabel: { el: 'Μήνυμα', en: 'Message' },
-  submitButton: { el: 'Αποστολή', en: 'Send Message' },
-  submitting: { el: 'Αποστολή...', en: 'Sending...' },
-  successTitle: { el: 'Το μήνυμά σας στάλθηκε!', en: 'Message sent!' },
-  successText: {
-    el: 'Θα επικοινωνήσουμε μαζί σας σύντομα.',
-    en: 'We will get back to you shortly.',
-  },
-  errorText: {
-    el: 'Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά.',
-    en: 'Something went wrong. Please try again.',
-  },
-  nameRequired: {
-    el: 'Το όνομα είναι υποχρεωτικό.',
-    en: 'Name is required.',
-  },
-  emailInvalid: {
-    el: 'Εισάγετε έγκυρο email.',
-    en: 'Please enter a valid email.',
-  },
-  messageRequired: {
-    el: 'Το μήνυμα είναι υποχρεωτικό.',
-    en: 'Message is required.',
-  },
-};
-
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function ContactForm() {
-  const { t, config } = useHayc();
+  const { t, config, cp } = useHayc();
   const siteId = config.siteConfig.siteId;
   const apiUrl = config.siteConfig.apiUrl;
+  const { contactPageConfig } = config;
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -56,12 +28,12 @@ export function ContactForm() {
 
   const validate = useCallback((): boolean => {
     const errors: { name?: string; email?: string; message?: string } = {};
-    if (!name.trim()) errors.name = t(labels.nameRequired);
-    if (!EMAIL_PATTERN.test(email.trim())) errors.email = t(labels.emailInvalid);
-    if (!message.trim()) errors.message = t(labels.messageRequired);
+    if (!name.trim()) errors.name = t(contactPageConfig.nameRequired);
+    if (!EMAIL_PATTERN.test(email.trim())) errors.email = t(contactPageConfig.emailInvalid);
+    if (!message.trim()) errors.message = t(contactPageConfig.messageRequired);
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
-  }, [name, email, message, t]);
+  }, [name, email, message, t, contactPageConfig]);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -70,7 +42,7 @@ export function ContactForm() {
       if (!validate()) return;
 
       if (!apiUrl || !siteId) {
-        setError(t(labels.errorText));
+        setError(t(contactPageConfig.errorText));
         return;
       }
 
@@ -90,19 +62,19 @@ export function ContactForm() {
         if (!res.ok) throw new Error('Request failed');
         setSubmitted(true);
       } catch {
-        setError(t(labels.errorText));
+        setError(t(contactPageConfig.errorText));
       } finally {
         setLoading(false);
       }
     },
-    [apiUrl, siteId, name, email, message, hp, validate, t]
+    [apiUrl, siteId, name, email, message, hp, validate, t, contactPageConfig]
   );
 
   if (submitted) {
     return (
       <div className="space-y-2 text-center">
-        <h3 className="text-lg font-semibold">{t(labels.successTitle)}</h3>
-        <p className="text-muted-foreground text-sm">{t(labels.successText)}</p>
+        <h3 className="text-lg font-semibold" {...cp('contactPageConfig.successTitle')}>{t(contactPageConfig.successTitle)}</h3>
+        <p className="text-muted-foreground text-sm" {...cp('contactPageConfig.successText')}>{t(contactPageConfig.successText)}</p>
       </div>
     );
   }
@@ -121,7 +93,7 @@ export function ContactForm() {
       />
 
       <div className="grid gap-2">
-        <Label htmlFor="contact-name">{t(labels.nameLabel)}</Label>
+        <Label htmlFor="contact-name" {...cp('contactPageConfig.formLabels.name')}>{t(contactPageConfig.formLabels.name)}</Label>
         <Input
           id="contact-name"
           type="text"
@@ -142,7 +114,7 @@ export function ContactForm() {
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor="contact-email">{t(labels.emailLabel)}</Label>
+        <Label htmlFor="contact-email" {...cp('contactPageConfig.formLabels.email')}>{t(contactPageConfig.formLabels.email)}</Label>
         <Input
           id="contact-email"
           type="email"
@@ -163,7 +135,7 @@ export function ContactForm() {
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor="contact-message">{t(labels.messageLabel)}</Label>
+        <Label htmlFor="contact-message" {...cp('contactPageConfig.formLabels.message')}>{t(contactPageConfig.formLabels.message)}</Label>
         <Textarea
           id="contact-message"
           value={message}
@@ -183,8 +155,8 @@ export function ContactForm() {
         )}
       </div>
 
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? t(labels.submitting) : t(labels.submitButton)}
+      <Button type="submit" disabled={loading} className="w-full" {...cp('contactPageConfig.submitButton')}>
+        {loading ? t(contactPageConfig.submitting) : t(contactPageConfig.submitButton)}
       </Button>
 
       {error && (

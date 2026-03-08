@@ -3,7 +3,7 @@ import { ArrowUp } from 'lucide-react';
 import { useHayc } from '../hayc/config-context';
 
 export function ScrollToTop() {
-  const { t, config } = useHayc();
+  const { t, config, cp } = useHayc();
   const scrollToTopConfig = config.scrollToTopConfig;
 
   // Null check: if config is empty, render nothing
@@ -32,6 +32,7 @@ export function ScrollToTop() {
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-4 pointer-events-none'
       }`}
+      {...cp('scrollToTopConfig.ariaLabel')}
     >
       <ArrowUp className="w-5 h-5" />
     </button>

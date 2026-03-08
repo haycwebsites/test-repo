@@ -130,6 +130,16 @@ export interface BookingPageConfig {
   backHomeButton: LocaleString;
 }
 
+export interface PreloaderConfig {
+  brandName: LocaleString;
+  brandSubname: LocaleString;
+  yearText?: LocaleString;
+}
+
+export interface ScrollToTopConfig {
+  ariaLabel: LocaleString;
+}
+
 export interface ContactPageConfig {
   title: LocaleString;
   subtitle: LocaleString;
@@ -149,6 +159,13 @@ export interface ContactPageConfig {
     messagePlaceholder: LocaleString;
   };
   submitButton: LocaleString;
+  submitting: LocaleString;
+  successTitle: LocaleString;
+  successText: LocaleString;
+  errorText: LocaleString;
+  nameRequired: LocaleString;
+  emailInvalid: LocaleString;
+  messageRequired: LocaleString;
   footerCopyright: LocaleString;
 }
 
@@ -165,6 +182,16 @@ export const siteConfig: SiteConfig = {
   canonical: '',
   siteId: '',
   apiUrl: '',
+};
+
+export const preloaderConfig: PreloaderConfig = {
+  brandName: { el: 'Apartment 128', en: 'Apartment 128' },
+  brandSubname: { el: 'Ένα ήσυχο διαμέρισμα στην πόλη', en: 'A calm apartment in the city' },
+  yearText: { el: '2026', en: '2026' },
+};
+
+export const scrollToTopConfig: ScrollToTopConfig = {
+  ariaLabel: { el: 'Πήγαινε πάνω', en: 'Scroll to top' },
 };
 
 export const navigationConfig: NavigationConfig = {
@@ -411,5 +438,12 @@ export const contactPageConfig: ContactPageConfig = {
     messagePlaceholder: { el: 'How can we help?', en: 'How can we help?' },
   },
   submitButton: { el: 'Send message', en: 'Send message' },
+  submitting: { el: 'Αποστολή...', en: 'Sending...' },
+  successTitle: { el: 'Το μήνυμά σας στάλθηκε!', en: 'Message sent!' },
+  successText: { el: 'Θα επικοινωνήσουμε μαζί σας σύντομα.', en: 'We will get back to you shortly.' },
+  errorText: { el: 'Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά.', en: 'Something went wrong. Please try again.' },
+  nameRequired: { el: 'Το όνομα είναι υποχρεωτικό.', en: 'Name is required.' },
+  emailInvalid: { el: 'Εισάγετε έγκυρο email.', en: 'Please enter a valid email.' },
+  messageRequired: { el: 'Το μήνυμα είναι υποχρεωτικό.', en: 'Message is required.' },
   footerCopyright: { el: '© Apartment 128. All rights reserved.', en: '© Apartment 128. All rights reserved.' },
 };
