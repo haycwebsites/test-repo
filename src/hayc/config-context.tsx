@@ -35,16 +35,36 @@ export function HaycProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!isEditMode) return;
+    const handleEditMode = (event: MessageEvent) => {
+      if (event.data?.type === 'HAYC_EDIT_MODE') {
+        setIsEditMode(event.data.payload?.enabled === true);
+      }
+    };
+    window.addEventListener('message', handleEditMode);
+    return () => window.removeEventListener('message', handleEditMode);
+  }, []); // empty deps — always listening
 
-    const handleMessage = (event: MessageEvent) => {
+  useEffect(() => {
+    if (!isEditMode) return;
+    const handleConfigUpdate = (event: MessageEvent) => {
       if (event.data?.type === 'HAYC_CONFIG_UPDATE' && event.data?.payload?.config) {
         setConfig(event.data.payload.config as RemoteConfig);
       }
     };
+    window.addEventListener('message', handleConfigUpdate);
+    return () => window.removeEventListener('message', handleConfigUpdate);
+  }, [isEditMode]);
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+  useEffect(() => {
+    if (!isEditMode) return;
+
+    const interceptClick = (e: MouseEvent) => {
+      e.preventDefault();
+      // do NOT stopPropagation — let the event bubble so cp() onClick fires
+    };
+
+    document.addEventListener('click', interceptClick, true);
+    return () => document.removeEventListener('click', interceptClick, true);
   }, [isEditMode]);
 
   const t = (val: LocaleString): string => val[locale] ?? val.en;
@@ -55,9 +75,7 @@ export function HaycProvider({ children }: { children: ReactNode }) {
     return {
       'data-config-path': path,
       onClick: (e: React.MouseEvent) => {
-        const anchor = (e.target as HTMLElement).closest('a[href]');
-        if (anchor) return;
-        
+        e.preventDefault();
         e.stopPropagation();
         window.parent.postMessage({ type: 'HAYC_FIELD_FOCUS', path }, '*');
       },
@@ -79,4 +97,3 @@ export function useHayc(): HaycContextValue {
   if (!ctx) throw new Error('useHayc must be used inside HaycProvider');
   return ctx;
 }
-// sync test 2
