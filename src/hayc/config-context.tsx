@@ -67,7 +67,7 @@ export function HaycProvider({ children }: { children: ReactNode }) {
     return () => document.removeEventListener('click', interceptClick, true);
   }, [isEditMode]);
 
-  const t = (val: LocaleString): string => val[locale] ?? val.en;
+  const t = (val: LocaleString): string => typeof val === 'string' ? val : val[locale] ?? val.en;
   const img = (val: string): string => val;
 
   const cp = useCallback((path: string): object => {
