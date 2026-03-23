@@ -97,17 +97,90 @@ async function main() {
   const interfacesSection = configTs.slice(0, firstConstAfterInterfaces);
 
   const constTypeMap = new Map<string, string>();
+  const constBlockMap = new Map<string, string>();
   const constRegex = /export const (\w+):\s*([\w<>]+)\s*=/g;
   let match;
   while ((match = constRegex.exec(configTs)) !== null) {
-    constTypeMap.set(match[1], match[2]);
+    const key = match[1];
+    constTypeMap.set(key, match[2]);
+
+    // Capture the original full const declaration so we can preserve local-only defaults.
+    const blockStart = match.index;
+    const valueStart = constRegex.lastIndex;
+    let i = valueStart;
+    let inSingle = false;
+    let inDouble = false;
+    let inTemplate = false;
+    let escape = false;
+    let depthParen = 0;
+    let depthBracket = 0;
+    let depthBrace = 0;
+
+    while (i < configTs.length) {
+      const ch = configTs[i];
+
+      if (escape) {
+        escape = false;
+        i++;
+        continue;
+      }
+
+      if (ch === '\\') {
+        escape = true;
+        i++;
+        continue;
+      }
+
+      if (!inDouble && !inTemplate && ch === "'") {
+        inSingle = !inSingle;
+        i++;
+        continue;
+      }
+
+      if (!inSingle && !inTemplate && ch === '"') {
+        inDouble = !inDouble;
+        i++;
+        continue;
+      }
+
+      if (!inSingle && !inDouble && ch === '`') {
+        inTemplate = !inTemplate;
+        i++;
+        continue;
+      }
+
+      if (!inSingle && !inDouble && !inTemplate) {
+        if (ch === '(') depthParen++;
+        else if (ch === ')') depthParen = Math.max(0, depthParen - 1);
+        else if (ch === '[') depthBracket++;
+        else if (ch === ']') depthBracket = Math.max(0, depthBracket - 1);
+        else if (ch === '{') depthBrace++;
+        else if (ch === '}') depthBrace = Math.max(0, depthBrace - 1);
+        else if (ch === ';' && depthParen === 0 && depthBracket === 0 && depthBrace === 0) {
+          constBlockMap.set(key, configTs.slice(blockStart, i + 1));
+          break;
+        }
+      }
+
+      i++;
+    }
   }
 
   const constLines: string[] = [];
+  const writtenKeys = new Set<string>();
   for (const [key, value] of Object.entries(remoteConfig)) {
     if (SKIP_KEYS.has(key)) continue;
     const typeAnnotation = constTypeMap.has(key) ? ': ' + constTypeMap.get(key) : '';
     constLines.push('export const ' + key + typeAnnotation + ' = ' + serializeValue(value, 0) + ';');
+    writtenKeys.add(key);
+  }
+
+  for (const key of constTypeMap.keys()) {
+    if (SKIP_KEYS.has(key) || writtenKeys.has(key)) continue;
+    const existingConstBlock = constBlockMap.get(key);
+    if (!existingConstBlock) continue;
+    console.warn("Warning: '" + key + "' not found in S3 config — preserving local default.");
+    constLines.push(existingConstBlock);
   }
 
   const newConfigTs = interfacesSection + '\n' + constLines.join('\n\n') + '\n';
