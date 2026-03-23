@@ -1,9 +1,39 @@
-import { siteConfig, digitalProductsConfig, type DigitalProductsConfig } from '../config';
+import {
+  siteConfig,
+  navigationConfig,
+  preloaderConfig,
+  scrollToTopConfig,
+  heroConfig,
+  availabilityConfig,
+  bedroomConfig,
+  livingRoomConfig,
+  kitchenConfig,
+  bathroomConfig,
+  amenitiesPageConfig,
+  locationPageConfig,
+  bookingPageConfig,
+  contactPageConfig,
+  digitalProductsConfig,
+  type DigitalProductsConfig,
+} from '../config';
 
 export interface RemoteConfig {
   version: number;
   exportedAt: string;
   siteConfig: typeof siteConfig;
+  navigationConfig: typeof navigationConfig;
+  preloaderConfig: typeof preloaderConfig;
+  scrollToTopConfig: typeof scrollToTopConfig;
+  heroConfig: typeof heroConfig;
+  availabilityConfig: typeof availabilityConfig;
+  bedroomConfig: typeof bedroomConfig;
+  livingRoomConfig: typeof livingRoomConfig;
+  kitchenConfig: typeof kitchenConfig;
+  bathroomConfig: typeof bathroomConfig;
+  amenitiesPageConfig: typeof amenitiesPageConfig;
+  locationPageConfig: typeof locationPageConfig;
+  bookingPageConfig: typeof bookingPageConfig;
+  contactPageConfig: typeof contactPageConfig;
   digitalProductsConfig?: DigitalProductsConfig;
 }
 
@@ -11,16 +41,26 @@ export const defaultConfig: RemoteConfig = {
   version: 1,
   exportedAt: '',
   siteConfig,
+  navigationConfig,
+  preloaderConfig,
+  scrollToTopConfig,
+  heroConfig,
+  availabilityConfig,
+  bedroomConfig,
+  livingRoomConfig,
+  kitchenConfig,
+  bathroomConfig,
+  amenitiesPageConfig,
+  locationPageConfig,
+  bookingPageConfig,
+  contactPageConfig,
   digitalProductsConfig,
 };
 
 export async function fetchRemoteConfig(): Promise<RemoteConfig> {
-  // In development, use config.ts directly for instant updates
   if (import.meta.env.DEV) {
     return defaultConfig;
   }
-
-  // In production, fetch from remote config.json
   try {
     const res = await fetch('/hayc/config.json');
     if (!res.ok) throw new Error('Failed to fetch config: ' + res.status);
