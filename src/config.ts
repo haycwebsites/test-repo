@@ -169,6 +169,29 @@ export interface ContactPageConfig {
   footerCopyright: LocaleString;
 }
 
+export interface DigitalProduct {
+  id: string;
+  type: 'course';
+  title: string;
+  slug: string;
+  description?: string;
+  thumbnail?: string;
+  price: string;
+  language: string;
+  estimatedDurationMinutes?: number;
+  chapters?: {
+    id: string;
+    title: string;
+    lessons: { id: string; title: string }[];
+  }[];
+}
+
+export interface DigitalProductsConfig {
+  enabled: boolean;
+  lastSyncedAt?: string;
+  products: DigitalProduct[];
+}
+
 // =============================================================================
 // CONSTANTS
 // =============================================================================
@@ -446,4 +469,9 @@ export const contactPageConfig: ContactPageConfig = {
   emailInvalid: { el: 'Εισάγετε έγκυρο email.', en: 'Please enter a valid email.' },
   messageRequired: { el: 'Το μήνυμα είναι υποχρεωτικό.', en: 'Message is required.' },
   footerCopyright: { el: '© Apartment 128. All rights reserved.', en: '© Apartment 128. All rights reserved.' },
+};
+
+export const digitalProductsConfig: DigitalProductsConfig = {
+  enabled: false,
+  products: [],
 };
