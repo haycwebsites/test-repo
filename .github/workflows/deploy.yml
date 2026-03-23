@@ -24,10 +24,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-north-1
-      - name: Pull latest config from S3
-        run: npm run pull-config
-        env:
-          VITE_SITE_ID: ${{ vars.SITE_ID }}
+      # - name: Pull latest config from S3
+      #   run: npm run pull-config
+      #   env:
+      #     VITE_SITE_ID: ${{ vars.SITE_ID }}
       - name: Build + export config
         run: npm run build:full
       - name: Sync dist to S3
