@@ -203,18 +203,8 @@ export const siteConfig: SiteConfig = {
   keywords: { el: 'διαμέρισμα, ενοικίαση', en: 'apartment, rental, long-term' },
   ogImage: '/hero_portrait.jpg',
   canonical: '',
-  siteId: '',
-  apiUrl: '',
-};
-
-export const preloaderConfig: PreloaderConfig = {
-  brandName: { el: 'Apartment 128', en: 'Apartment 128' },
-  brandSubname: { el: 'Ένα ήσυχο διαμέρισμα στην πόλη', en: 'A calm apartment in the city' },
-  yearText: { el: '2026', en: '2026' },
-};
-
-export const scrollToTopConfig: ScrollToTopConfig = {
-  ariaLabel: { el: 'Πήγαινε πάνω', en: 'Scroll to top' },
+  siteId: 'test-repo',
+  apiUrl: 'https://harmonious-embrace-staging.up.railway.app',
 };
 
 export const navigationConfig: NavigationConfig = {
@@ -246,10 +236,20 @@ export const navigationConfig: NavigationConfig = {
   ],
 };
 
+export const preloaderConfig: PreloaderConfig = {
+  brandName: { el: 'Apartment 128', en: 'Apartment 128' },
+  brandSubname: { el: 'Ένα ήσυχο διαμέρισμα στην πόλη', en: 'A calm apartment in the city' },
+  yearText: { el: '2026', en: '2026' },
+};
+
+export const scrollToTopConfig: ScrollToTopConfig = {
+  ariaLabel: { el: 'Πήγαινε πάνω', en: 'Scroll to top' },
+};
+
 export const heroConfig: HeroConfig = {
   heroImage: '/hero_portrait.jpg',
   heroImageAlt: { el: 'Εσωτερικό διαμερίσματος', en: 'Apartment interior' },
-  mainTitle: { el: 'test here', en: 'Live here\nfor a\nwhile.' },
+  mainTitle: { el: 'batman 123', en: 'Live here\nfor a\nwhile.' },
   subtitle: { el: 'A calm, batman rental in the city—available for stays of 3–12 months.', en: 'A calm, furnished rental in the city—available for stays of 3–12 months.' },
   requestTourButton: { el: 'Request a tour', en: 'Request a tour' },
   viewAvailabilityButton: { el: 'View availability', en: 'View availability' },
@@ -472,6 +472,128 @@ export const contactPageConfig: ContactPageConfig = {
 };
 
 export const digitalProductsConfig: DigitalProductsConfig = {
-  enabled: false,
-  products: [],
+  enabled: true,
+  lastSyncedAt: '2026-03-25T21:41:24.516Z',
+  products: [
+    {
+      id: '0076b90e-f3bf-42fd-a1c3-deee2598563a',
+      type: 'course',
+      title: 'React - The Complete Guide (incl. Next.js, Redux)',
+      slug: 'react-the-complete-guide-incl-nextjs-redux',
+      description: 'Dive in and learn React.js from scratch! Learn React, Hooks, Redux, React Router, Next.js, Best Practices and way more!',
+      thumbnail: 'https://www.jotform.com/blog/wp-content/uploads/2017/01/react-js.png',
+      price: '0.00',
+      language: 'el',
+      estimatedDurationMinutes: 480,
+      chapters: [
+        {
+          id: 'cb4de920-2fac-473f-948b-2f8597cca2d6',
+          title: 'Getting started',
+          lessons: [
+            {
+              id: '7d4163d7-57b9-4d51-9115-e080c11ceece',
+              title: 'Welcome To The Course!',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: '122ba75a-e64b-485d-942a-c47805b7cf52',
+      type: 'course',
+      title: 'Introduction to Web Development',
+      slug: 'introduction-to-web-development',
+      description: 'test',
+      thumbnail: '',
+      price: '9.99',
+      language: 'en',
+      estimatedDurationMinutes: 19,
+      chapters: [
+        {
+          id: '5b35ca00-f732-4610-bfe7-b0e9f6ec8a47',
+          title: 'Basics of the Web',
+          lessons: [
+            {
+              id: 'b65c749a-e055-4faf-894c-c831403db78b',
+              title: 'What is the Internet?',
+            },
+            {
+              id: 'fff1e1c6-d585-4a68-9b65-e0e7a22b49f8',
+              title: 'How Websites Work',
+            },
+            {
+              id: '8edec310-ee1d-4995-b9f5-477b5994d1c2',
+              title: 'Browsers and Servers',
+            },
+          ],
+        },
+        {
+          id: 'fe856d21-9984-44b2-9c6d-43b4f80e3159',
+          title: 'HTML Fundamentals',
+          lessons: [
+            {
+              id: '3feb5642-483d-4f09-9be4-8ab44e93c77c',
+              title: 'What is HTML?',
+            },
+            {
+              id: 'c16dac85-4ced-49d0-81ca-2decf7c18c46',
+              title: 'Basic Tags',
+            },
+            {
+              id: 'c3cbb1ef-cb4a-482c-a2ce-2762f0b03a30',
+              title: 'Creating Your First Page',
+            },
+          ],
+        },
+        {
+          id: 'a7420dfb-efb1-46e5-95a2-3701a0652907',
+          title: 'CSS Basics',
+          lessons: [
+            {
+              id: '2bfd39b4-f761-4748-bfeb-d69711444068',
+              title: 'What is CSS?',
+            },
+            {
+              id: '6b2f5595-2a62-42df-aa1a-35d985a59847',
+              title: 'Colors and Fonts',
+            },
+            {
+              id: 'ef920657-2a19-4671-9bd8-023d7fbc1e6e',
+              title: 'Layout and Spacing',
+            },
+          ],
+        },
+        {
+          id: 'ed923b01-9b42-482a-aed5-e301403c4693',
+          title: 'JavaScript Intro',
+          lessons: [
+            {
+              id: '498381f0-cd03-4dbf-a34e-1faa23acb77b',
+              title: 'What is JavaScript?',
+            },
+            {
+              id: '457a4e76-55a0-4b85-80e5-a068a18ccf49',
+              title: 'Variables and Functions',
+            },
+            {
+              id: 'dfe877e7-33eb-4fa2-bb4e-49553a4757c8',
+              title: 'Simple Interactions',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: '9ba2d2ce-3e32-41dc-b375-c217de01c446',
+      type: 'course',
+      title: 'test werwerwer',
+      slug: 'test-werwerwer',
+      description: 'werwerwer',
+      thumbnail: '',
+      price: '500.00',
+      language: 'el',
+      estimatedDurationMinutes: 120,
+      chapters: [],
+    },
+  ],
 };
