@@ -201,6 +201,7 @@ async function main() {
   }
 
   const constLines: string[] = [];
+  const mergedConfig: Record<string, unknown> = {};
   const allKeys = new Set<string>([
     ...Object.keys(sanitizedRemoteConfig),
     ...Object.keys(baseConfig),
@@ -215,6 +216,19 @@ async function main() {
     const hasBase = Object.prototype.hasOwnProperty.call(baseConfig, key);
     const localBlock = constBlockMap.get(key);
     const expectedBlockFromBase = hasBase ? buildExpectedBlock(key, baseConfig[key], constTypeMap) : null;
+
+    if (key === 'heroConfig') {
+      const local = localBlock?.trim() ?? '';
+      const expected = expectedBlockFromBase?.trim() ?? '';
+      // Find first difference
+      let diffIndex = 0;
+      while (diffIndex < local.length && diffIndex < expected.length && local[diffIndex] === expected[diffIndex]) {
+        diffIndex++;
+      }
+      console.log('DIFF AT INDEX:', diffIndex);
+      console.log('LOCAL:', JSON.stringify(local.slice(Math.max(0, diffIndex - 30), diffIndex + 50)));
+      console.log('EXPECTED:', JSON.stringify(expected.slice(Math.max(0, diffIndex - 30), diffIndex + 50)));
+    }
 
     // First run with empty baseline should behave like current logic: remote wins.
     const localChanged = hasBaseline && hasLocal && expectedBlockFromBase !== null
@@ -237,6 +251,9 @@ async function main() {
         console.log("ℹ Local change detected for '" + key + "' — keeping local version.");
         constLines.push(existingConstBlock);
       }
+      if (hasRemote) {
+        mergedConfig[key] = sanitizedRemoteConfig[key];
+      }
       continue;
     }
 
@@ -244,6 +261,7 @@ async function main() {
       const typeAnnotation = constTypeMap.has(key) ? ': ' + constTypeMap.get(key) : '';
       constLines.push('export const ' + key + typeAnnotation + ' = ' + serializeValue(sanitizedRemoteConfig[key], 0) + ';');
       console.log("↓ Pulled updated '" + key + "' from S3.");
+      mergedConfig[key] = sanitizedRemoteConfig[key];
       continue;
     }
 
@@ -252,6 +270,9 @@ async function main() {
       if (existingConstBlock) {
         constLines.push(existingConstBlock);
       }
+      if (hasRemote) {
+        mergedConfig[key] = sanitizedRemoteConfig[key];
+      }
       continue;
     }
 
@@ -259,13 +280,14 @@ async function main() {
       if (hasRemote) {
         const typeAnnotation = constTypeMap.has(key) ? ': ' + constTypeMap.get(key) : '';
         constLines.push('export const ' + key + typeAnnotation + ' = ' + serializeValue(sanitizedRemoteConfig[key], 0) + ';');
+        mergedConfig[key] = sanitizedRemoteConfig[key];
       }
     }
   }
 
   const newConfigTs = interfacesSection + '\n' + constLines.join('\n\n') + '\n';
   fs.writeFileSync(configTsPath, newConfigTs, 'utf-8');
-  fs.writeFileSync(configBasePath, JSON.stringify(sanitizedRemoteConfig, null, 2) + '\n', 'utf-8');
+  fs.writeFileSync(configBasePath, JSON.stringify(mergedConfig, null, 2) + '\n', 'utf-8');
   console.log('src/config.ts updated with latest content from S3.');
   console.log('Review the changes and deploy when ready.');
 }
