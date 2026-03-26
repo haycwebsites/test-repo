@@ -30,6 +30,15 @@ jobs:
           VITE_SITE_ID: ${{ vars.SITE_ID }}
       - name: Build + export config
         run: npm run build:full
+      - name: Update config baseline
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/.config-base.json
+          git diff --staged --quiet || git commit -m "chore: update config baseline [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Sync dist to S3
         run: |
           aws s3 sync dist/ s3://hayc-react-apps/sites/${{ vars.SITE_ID }}/dist/ \
