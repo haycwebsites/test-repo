@@ -252,7 +252,7 @@ export const heroConfig: HeroConfig = {
   mainTitle: { el: 'test here', en: 'Live here\nfor a\nwhile.' },
   subtitle: { el: 'A calm, batman rental in the city—available for stays of 3–12 months.', en: 'A calm, furnished rental in the city—available for stays of 3–12 months.' },
   requestTourButton: { el: 'yamaha r1', en: 'Request a tour' },
-  viewAvailabilityButton: { el: 'TEST SOMETHING', en: 'View availability' },
+  viewAvailabilityButton: { el: 'panigale v4', en: 'View availability' },
   availabilityLabel: { el: 'Now showing · Q3 2026', en: 'Now showing · Q3 2026' },
 };
 
