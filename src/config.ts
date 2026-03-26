@@ -249,9 +249,9 @@ export const scrollToTopConfig: ScrollToTopConfig = {
 export const heroConfig: HeroConfig = {
   heroImage: '/hero_portrait.jpg',
   heroImageAlt: { el: 'Εσωτερικό διαμερίσματος', en: 'Apartment interior' },
-  mainTitle: { el: 'batman 123', en: 'Live here\nfor a\nwhile.' },
+  mainTitle: { el: 'test here', en: 'Live here\nfor a\nwhile.' },
   subtitle: { el: 'A calm, batman rental in the city—available for stays of 3–12 months.', en: 'A calm, furnished rental in the city—available for stays of 3–12 months.' },
-  requestTourButton: { el: 'Request a tour', en: 'Request a tour' },
+  requestTourButton: { el: 'LOCAL CHANGE TEST', en: 'Request a tour' },
   viewAvailabilityButton: { el: 'View availability', en: 'View availability' },
   availabilityLabel: { el: 'Now showing · Q3 2026', en: 'Now showing · Q3 2026' },
 };
