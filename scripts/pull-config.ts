@@ -79,11 +79,6 @@ function normalizeForCompare(value: unknown): string {
   return serialized === undefined ? '__undefined__' : serialized;
 }
 
-function buildExpectedBlock(key: string, value: unknown, typeMap: Map<string, string>): string {
-  const typeAnnotation = typeMap.has(key) ? ': ' + typeMap.get(key) : '';
-  return 'export const ' + key + typeAnnotation + ' = ' + serializeValue(value, 0) + ';';
-}
-
 function sanitizeConfigObject(obj: Record<string, unknown>): Record<string, unknown> {
   const result: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(obj)) {
@@ -211,78 +206,43 @@ async function main() {
   for (const key of allKeys) {
     if (SKIP_KEYS.has(key)) continue;
 
-    const hasLocal = constBlockMap.has(key);
     const hasRemote = Object.prototype.hasOwnProperty.call(sanitizedRemoteConfig, key);
-    const hasBase = Object.prototype.hasOwnProperty.call(baseConfig, key);
     const localBlock = constBlockMap.get(key);
-    const expectedBlockFromBase = hasBase ? buildExpectedBlock(key, baseConfig[key], constTypeMap) : null;
+    const hasLocal = Boolean(localBlock);
 
-    if (key === 'heroConfig') {
-      const local = localBlock?.trim() ?? '';
-      const expected = expectedBlockFromBase?.trim() ?? '';
-      // Find first difference
-      let diffIndex = 0;
-      while (diffIndex < local.length && diffIndex < expected.length && local[diffIndex] === expected[diffIndex]) {
-        diffIndex++;
-      }
-      console.log('DIFF AT INDEX:', diffIndex);
-      console.log('LOCAL:', JSON.stringify(local.slice(Math.max(0, diffIndex - 30), diffIndex + 50)));
-      console.log('EXPECTED:', JSON.stringify(expected.slice(Math.max(0, diffIndex - 30), diffIndex + 50)));
-    }
-
-    // First run with empty baseline should behave like current logic: remote wins.
-    const localChanged = hasBaseline && hasLocal && expectedBlockFromBase !== null
-      ? localBlock?.trim() !== expectedBlockFromBase.trim()
-      : false;
-    const remoteChanged = normalizeForCompare(sanitizedRemoteConfig[key]) !== normalizeForCompare(baseConfig[key]);
-
-    if (hasLocal && !hasRemote) {
-      const existingConstBlock = constBlockMap.get(key);
-      if (existingConstBlock) {
+    if (!hasRemote) {
+      if (hasLocal && localBlock) {
         console.log("ℹ '" + key + "' not in S3 — preserving local default.");
-        constLines.push(existingConstBlock);
+        constLines.push(localBlock);
       }
       continue;
     }
 
-    if (localChanged && hasLocal) {
-      const existingConstBlock = constBlockMap.get(key);
-      if (existingConstBlock) {
-        console.log("ℹ Local change detected for '" + key + "' — keeping local version.");
-        constLines.push(existingConstBlock);
-      }
-      if (hasRemote) {
-        mergedConfig[key] = sanitizedRemoteConfig[key];
-      }
-      continue;
-    }
+    const remoteChanged =
+      !hasBaseline ||
+      normalizeForCompare(sanitizedRemoteConfig[key]) !== normalizeForCompare(baseConfig[key]);
 
-    if (remoteChanged && hasRemote) {
+    if (remoteChanged) {
       const typeAnnotation = constTypeMap.has(key) ? ': ' + constTypeMap.get(key) : '';
-      constLines.push('export const ' + key + typeAnnotation + ' = ' + serializeValue(sanitizedRemoteConfig[key], 0) + ';');
+      constLines.push(
+        'export const ' + key + typeAnnotation + ' = ' + serializeValue(sanitizedRemoteConfig[key], 0) + ';',
+      );
       console.log("↓ Pulled updated '" + key + "' from S3.");
       mergedConfig[key] = sanitizedRemoteConfig[key];
       continue;
     }
 
-    if (hasLocal) {
-      const existingConstBlock = constBlockMap.get(key);
-      if (existingConstBlock) {
-        constLines.push(existingConstBlock);
-      }
-      if (hasRemote) {
-        mergedConfig[key] = sanitizedRemoteConfig[key];
-      }
+    if (hasLocal && localBlock) {
+      constLines.push(localBlock);
+      mergedConfig[key] = sanitizedRemoteConfig[key];
       continue;
     }
 
-    if (hasRemote || hasBase) {
-      if (hasRemote) {
-        const typeAnnotation = constTypeMap.has(key) ? ': ' + constTypeMap.get(key) : '';
-        constLines.push('export const ' + key + typeAnnotation + ' = ' + serializeValue(sanitizedRemoteConfig[key], 0) + ';');
-        mergedConfig[key] = sanitizedRemoteConfig[key];
-      }
-    }
+    const typeAnnotation = constTypeMap.has(key) ? ': ' + constTypeMap.get(key) : '';
+    constLines.push(
+      'export const ' + key + typeAnnotation + ' = ' + serializeValue(sanitizedRemoteConfig[key], 0) + ';',
+    );
+    mergedConfig[key] = sanitizedRemoteConfig[key];
   }
 
   const newConfigTs = interfacesSection + '\n' + constLines.join('\n\n') + '\n';
