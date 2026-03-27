@@ -83,7 +83,7 @@ export function HaycProvider({ children }: { children: ReactNode }) {
     };
   }, [isEditMode]);
 
-  if (!ready) return <div className="min-h-screen bg-[#141414]" />;
+  if (!ready) return <div className="min-h-screen bg-background" />;
 
   return (
     <HaycContext.Provider value={{ locale, setLocale, t, img, config, isEditMode, cp }}>
