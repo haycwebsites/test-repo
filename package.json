@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "export:config": "tsc -p tsconfig.scripts.json && node dist-scripts/scripts/export-config.js",
     "build:full": "vite build && npm run export:config",
-    "pull-config": "npx tsx scripts/pull-config.ts"
+    "pull-config": "npx tsx scripts/pull-config.ts",
+    "sync-baseline": "npx tsx scripts/sync-baseline.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

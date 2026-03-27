@@ -32,18 +32,13 @@ jobs:
           VITE_SITE_ID: ${{ vars.SITE_ID }}
       - name: Build + export config
         run: npm run build:full
-      - name: Re-sync config from S3
-        run: npm run pull-config
-        env:
-          VITE_SITE_ID: ${{ vars.SITE_ID }}
+      - name: Sync baseline from config
+        run: npm run sync-baseline
       - name: Commit config sync
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git status
-          git diff scripts/.config-base.json
           git add scripts/.config-base.json src/config.ts
-          git diff --staged
           git diff --staged --quiet || git commit -m "chore: sync config after deploy [skip ci]"
           git push
         env:
