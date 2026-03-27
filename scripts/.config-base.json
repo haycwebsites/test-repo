@@ -94,7 +94,7 @@
     }
   },
   "heroConfig": {
-    "heroImage": "/hero_portrait.jpg",
+    "heroImage": "https://d8iqbmvu05s9c.cloudfront.net/ajprhqgqg1otf7d5sm7u3brf27gv",
     "heroImageAlt": {
       "el": "Εσωτερικό διαμερίσματος",
       "en": "Apartment interior"

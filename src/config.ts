@@ -247,7 +247,7 @@ export const scrollToTopConfig: ScrollToTopConfig = {
 };
 
 export const heroConfig: HeroConfig = {
-  heroImage: '/hero_portrait.jpg',
+  heroImage: 'https://d8iqbmvu05s9c.cloudfront.net/ajprhqgqg1otf7d5sm7u3brf27gv',
   heroImageAlt: { el: 'Εσωτερικό διαμερίσματος', en: 'Apartment interior' },
   mainTitle: { el: 'test here', en: 'Live here\nfor a\nwhile.' },
   subtitle: { el: 'A calm, batman rental in the city—available for stays of 3–12 months.', en: 'A calm, furnished rental in the city—available for stays of 3–12 months.' },
