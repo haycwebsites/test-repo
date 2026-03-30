@@ -93,6 +93,10 @@ async function main() {
 
   const res = await fetch(CONFIG_URL);
   if (!res.ok) {
+    if (res.status === 403 || res.status === 404) {
+      console.warn('⚠️  No config.json found in S3 for site "' + SITE_ID + '" (' + res.status + ') — skipping pull. This is expected on first deploy.');
+      process.exit(0);
+    }
     console.error('Failed to fetch config.json: ' + res.status + ' ' + res.statusText);
     process.exit(1);
   }
