@@ -247,7 +247,7 @@ export const scrollToTopConfig: ScrollToTopConfig = {
 };
 
 export const heroConfig: HeroConfig = {
-  heroImage: 'https://d8iqbmvu05s9c.cloudfront.net/ajprhqgqg1otf7d5sm7u3brf27gv',
+  heroImage: 'https://res.cloudinary.com/dem12vqtl/image/upload/v1775678345/Website%20Media/blatsos2014%40gmail.com/hayc-a64dcunv/ytl5stz1t55hlmycvc7s.jpg',
   heroImageAlt: { el: 'Εσωτερικό διαμερίσματος', en: 'Apartment interior' },
   mainTitle: { el: 'test here', en: 'Live here\nfor a\nwhile.' },
   subtitle: { el: 'A calm, batman rental in the city—available for stays of 3–12 months.', en: 'A calm, furnished rental in the city—available for stays of 3–12 months.' },
@@ -267,7 +267,7 @@ export const availabilityConfig: AvailabilityConfig = {
 };
 
 export const bedroomConfig: RoomConfig = {
-  image: '/bedroom_feature.jpg',
+  image: 'https://res.cloudinary.com/dem12vqtl/image/upload/v1775678345/Website%20Media/blatsos2014%40gmail.com/hayc-a64dcunv/iyexigbniibzanab6xqa.jpg',
   imageAlt: { el: 'Υπνοδωμάτιο', en: 'Bedroom' },
   title: { el: 'Bedroom', en: 'Bedroom' },
   description: { el: 'Blackout curtains, built-in storage, and space for a desk. Designed for real rest—and real work.', en: 'Blackout curtains, built-in storage, and space for a desk. Designed for real rest—and real work.' },
