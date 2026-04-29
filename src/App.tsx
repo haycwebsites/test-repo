@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/select';
 import { HaycProvider, useHayc } from './hayc/config-context';
 import { ContactForm } from '@/components/ContactForm';
+import { NewsletterSection } from '@/components/NewsletterSection';
 import './App.css';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -321,6 +322,9 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </div>
   );
 }
