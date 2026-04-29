@@ -204,7 +204,7 @@ export const siteConfig: SiteConfig = {
   ogImage: '/hero_portrait.jpg',
   canonical: '',
   siteId: 'test-repo',
-  apiUrl: 'https://harmonious-embrace-staging.up.railway.app',
+  apiUrl: 'https://hayc.gr',
 };
 
 export const navigationConfig: NavigationConfig = {
